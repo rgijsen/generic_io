@@ -1,0 +1,8 @@
+---
+Language: Cpp
+#AccessModifierOffset: 0
+AlignTrailingComments: true
+IndentWidth: 2
+BreakBeforeBraces: Allman
+AlwaysBreakTemplateDeclarations: true
+PointerBindsToType: true
