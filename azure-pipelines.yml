@@ -5,17 +5,19 @@ resources:
   - container: gcc
     image: gcc:8.3.0
 
+variables:
+  poolImage: 'ubuntu-latest'
+
 trigger:
 - master
-
-pool:
-  vmImage: 'ubuntu-latest'
 
 stages:
 - stage: pre-build
   displayName: pre-build stage
   jobs:
   - job: versions
+    pool:
+      vmImage: $(poolImage)
     steps:
     - script: uname -a
     - script: gcc --version
@@ -24,6 +26,8 @@ stages:
   jobs:
   - job: build 
     container: gcc
+    pool:
+      vmImage: $(poolImage)
     steps:
     - script: rm -rf build
     - script: mkdir build
