@@ -15,9 +15,19 @@ stages:
 - stage: pre-build
   displayName: pre-build stage
   jobs:
-  - job:
+  - job: versions
     container: gcc
     steps:
     - script: uname -a
     - script: gcc --version
+    - script: cmake --version
+- stage: 
+  jobs:
+  - job:
+    steps:
+    - script: rm -rf build
+    - script: mkdir build
+    - script: cd build
+    - script: cmake ..
+    - script: make
 
