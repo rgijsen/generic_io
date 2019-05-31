@@ -1,7 +1,9 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
+
+resources:
+  containers:
+  - container: gcc
+    image: gcc:8.3.0
 
 trigger:
 - master
@@ -9,11 +11,13 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+stages:
+- stage: pre-build
+  displayName: pre-build stage
+  jobs:
+  - job:
+    container: gcc
+    steps:
+    - script: uname -a
+    - script: gcc --version
 
-- script: 
-    uname -a
-    g++ --version
-  displayName: is this realy necessary ?
