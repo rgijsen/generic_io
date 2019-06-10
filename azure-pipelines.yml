@@ -30,12 +30,13 @@ stages:
     pool:
       vmImage: $(poolImage)
     steps:
-    - script: uname -a
-    - script: gcc --version
-    - script: cmake --version
-    - script: rm -rf build
-    - script: mkdir build
-    - script: cd build
-    - script: cmake ..
-    # - script: make
+    - script:
+        uname -a
+        gcc --version
+        cmake --version
+        rm -rf build
+        mkdir build
+        cd build
+        cmake ..
+        make
 
