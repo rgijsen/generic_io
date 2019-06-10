@@ -30,7 +30,7 @@ stages:
     pool:
       vmImage: $(poolImage)
     steps:
-    - script:
+    - script: |
         uname -a
         gcc --version
         cmake --version
