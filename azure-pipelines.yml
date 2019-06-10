@@ -13,16 +13,6 @@ trigger:
 - master
 
 stages:
-# - stage: pre_build
-#   displayName: pre-build stage
-#   jobs:
-#   - job: versions
-#     pool:
-#       vmImage: $(poolImage)
-#     steps:
-#     - script: uname -a
-#     - script: gcc --version
-#     - script: cmake --version
 - stage: build
   jobs:
   - job: Build 
