@@ -1,19 +1,42 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
+
+resources:
+  containers:
+  - container: gcc
+    #image: gcc:8.3.0
+    image: magellan2/gcc8:1.1
+
+variables:
+  poolImage: 'ubuntu-latest'
 
 trigger:
 - master
 
-pool:
-  vmImage: 'ubuntu-latest'
+stages:
+# - stage: pre_build
+#   displayName: pre-build stage
+#   jobs:
+#   - job: versions
+#     pool:
+#       vmImage: $(poolImage)
+#     steps:
+#     - script: uname -a
+#     - script: gcc --version
+#     - script: cmake --version
+- stage: build
+  jobs:
+  - job: Build 
+    container: gcc
+    pool:
+      vmImage: $(poolImage)
+    steps:
+    - script: |
+        uname -a
+        gcc --version
+        cmake --version
+        rm -rf build
+        mkdir build
+        cd build
+        cmake ..
+        make
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
