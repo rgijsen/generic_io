@@ -3,7 +3,8 @@
 resources:
   containers:
   - container: gcc
-    image: gcc:8.3.0
+    #image: gcc:8.3.0
+    image: magellan2/gcc8:1.1
 
 variables:
   poolImage: 'ubuntu-latest'
