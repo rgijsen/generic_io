@@ -2,7 +2,13 @@
 Language: Cpp
 #AccessModifierOffset: 0
 AlignTrailingComments: true
-IndentWidth: 2
-BreakBeforeBraces: Allman
 AlwaysBreakTemplateDeclarations: true
+BreakBeforeBraces: Allman
+ColumnLimit: 0
+FixNamespaceComments: false
+IndentWidth: 2
+NamespaceIndentation: All
 PointerBindsToType: true
+SortIncludes: false
+SpaceAfterTemplateKeyword: false
+SpaceBeforeParens: false

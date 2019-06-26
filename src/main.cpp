@@ -2,9 +2,11 @@
 #include <iostream>
 #include <vector>
 
-void SingleTypeExample();
+void RunSingleTypeExamples();
+void RunAggregatedTypeExamples();
 
 int main(int argc, char* argv[])
 {
-  SingleTypeExample();
+  RunSingleTypeExamples();
+  RunAggregatedTypeExamples();
 }

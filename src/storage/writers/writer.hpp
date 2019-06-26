@@ -14,7 +14,7 @@ namespace storage
     // so multi variables are aggregated into a tuple
     virtual void write_next(const std::tuple<Ts...>& t) = 0;
     virtual void write_next(const Ts&... t) = 0;
-    
+
     virtual iterator_t begin()
     {
       return iterator_t(this);

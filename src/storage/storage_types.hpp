@@ -49,4 +49,23 @@ namespace storage
   using binary_file_writer_t = file_writer<parsers::binary_parser, io_traits, Ts...>;
   template<typename... Ts>
   using text_file_writer_t = file_writer<parsers::text_parser<NoThrow::value>, io_traits, Ts...>;
+
+  // utilities functions
+  template<typename... Ts>
+  shared_writer_t<Ts...> make_shared_writer(bool use_binary, std::string filename, const short precision = 6)
+  {
+    if(use_binary)
+      return std::make_shared<binary_file_writer_t<Ts...>>(filename, precision);
+    else
+      return std::make_shared<text_file_writer_t<Ts...>>(filename, precision);
+  }
+
+  template<typename... Ts>
+  shared_reader_t<Ts...> make_shared_reader(bool use_binary, std::string filename)
+  {
+    if(use_binary)
+      return std::make_shared<binary_file_reader_t<Ts...>>(filename);
+    else
+      return std::make_shared<text_file_reader_t<Ts...>>(filename);
+  }
 }

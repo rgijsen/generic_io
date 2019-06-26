@@ -13,57 +13,57 @@ namespace storage
   template<typename Parser, typename Traits, typename... Ts>
   class file_writer : public writer<Ts...>
   {
-    private:
-      std::string path;
-      shared_of_stream_t stream;
-      Parser parser;
+  private:
+    std::string path;
+    shared_of_stream_t stream;
+    Parser parser;
 
-      template<size_t... Is>
-      void invoke_unparse(const std::tuple<Ts...> t, std::index_sequence<Is...>)
-      {
-        parser.unparse(stream, std::get<Is>(t)...);
-      }
+    template<size_t... Is>
+    void invoke_unparse(const std::tuple<Ts...> t, std::index_sequence<Is...>)
+    {
+      parser.unparse(stream, std::get<Is>(t)...);
+    }
 
-    public:
-      file_writer(std::string file_path, const short precision = 6, Parser p = Parser())
+  public:
+    file_writer(std::string file_path, const short precision = 6, Parser p = Parser())
         : path(file_path), parser(p)
-      {
-        stream = shared_of_stream_t(new std::ofstream, [](auto p) { if(p->is_open()) p->close(); delete p; });
-        
-        std::ios_base::openmode mode = std::ios::out;
-        if(Parser::is_binary)
-          mode |= std::ios::binary;
-        
-        stream->open(path, mode);
-        if(!*(this))
-          Traits::notify("Unable to open file: " + path);
-        else
-        {
-          *stream << std::setprecision(precision);
-          Traits::notify(std::string("Writing to ") + (Parser::is_binary ? "binary " : "") + "file: " + path);
-        }
-      }
+    {
+      stream = shared_of_stream_t(new std::ofstream, [](auto p) { if(p->is_open()) p->close(); delete p; });
 
-      operator bool() const
-      {
-        return stream->is_open();
-      }
+      std::ios_base::openmode mode = std::ios::out;
+      if(Parser::is_binary)
+        mode |= std::ios::binary;
 
-      std::string get_path()
+      stream->open(path, mode);
+      if(!*(this))
+        Traits::notify("Unable to open file: " + path);
+      else
       {
-        return path;
+        *stream << std::setprecision(precision);
+        Traits::notify(std::string("Writing to ") + (Parser::is_binary ? "binary " : "") + "file: " + path);
       }
+    }
 
-      // for iterators which can only assign one variable
-      // so multi variables are aggregated into a tuple
-      void write_next(const std::tuple<Ts...>& t) override
-      {
-        invoke_unparse(t, std::make_index_sequence<sizeof...(Ts)>{});
-      }
+    operator bool() const
+    {
+      return stream->is_open();
+    }
 
-      void write_next(const Ts&... t) override
-      {
-        parser.unparse(stream, t...);
-      }
- };
-}
+    std::string get_path()
+    {
+      return path;
+    }
+
+    // for iterators which can only assign one variable
+    // so multi variables are aggregated into a tuple
+    void write_next(const std::tuple<Ts...>& t) override
+    {
+      invoke_unparse(t, std::make_index_sequence<sizeof...(Ts)>{});
+    }
+
+    void write_next(const Ts&... t) override
+    {
+      parser.unparse(stream, t...);
+    }
+  };
+} // namespace storage
