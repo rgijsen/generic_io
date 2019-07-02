@@ -27,7 +27,7 @@ namespace
   }
 }
 
-void RunSingleTypeExamples()
+void RunSingleTypeExample()
 {
   std::vector<double> outbound_data = 
   {

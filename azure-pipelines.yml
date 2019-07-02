@@ -4,6 +4,7 @@ resources:
   containers:
   - container: gcc
     #image: gcc:8.3.0
+    # ubuntu 18.10 + gcc 8 + cmake
     image: magellan2/gcc8:1.1
 
 variables:

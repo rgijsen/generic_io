@@ -49,6 +49,12 @@ namespace storage
       return stream->is_open();
     }
 
+    void close()
+    {
+      if(*this)
+        stream->close();
+    }
+
     std::string get_path()
     {
       return path;
@@ -65,5 +71,13 @@ namespace storage
     {
       parser.unparse(stream, t...);
     }
+
+    // overload to deviate from the file_writer Ts parameters.
+    // eg. used when writing a header line in a data file
+    template<typename... Xs>
+    void write_next(Xs&&... xs)
+    {
+      parser.unparse(stream, std::forward<Xs>(xs)...);
+    }
   };
-} // namespace storage
+}

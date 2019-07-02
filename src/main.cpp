@@ -2,11 +2,13 @@
 #include <iostream>
 #include <vector>
 
-void RunSingleTypeExamples();
-void RunAggregatedTypeExamples();
+void RunSingleTypeExample();
+void RunAggregatedTypeExample();
+void RunXYZFormatExample();
 
 int main(int argc, char* argv[])
 {
-  RunSingleTypeExamples();
-  RunAggregatedTypeExamples();
+  RunSingleTypeExample();
+  RunAggregatedTypeExample();
+  RunXYZFormatExample();
 }

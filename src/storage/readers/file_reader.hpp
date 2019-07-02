@@ -40,6 +40,12 @@ namespace storage
       return stream->is_open();
     }
 
+    void close()
+    {
+      if(*this)
+        stream->close();
+    }
+
     data_t read_next() const override
     {
       return parser.template parse<shared_input_stream_t, Traits, Ts...>(stream);

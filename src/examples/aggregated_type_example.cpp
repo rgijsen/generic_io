@@ -22,12 +22,13 @@ namespace
     std::vector<aggregate_type> inbound_data;
     auto reader = storage::make_shared_reader<int, double>(format, filename);
     if(reader)
-      std::transform(reader->begin(), reader->end(), std::back_inserter(inbound_data), [](auto& x) { return std::pair{ std::get<0>(x), std::get<1>(x) }; });
+      std::transform(reader->begin(), reader->end(), std::back_inserter(inbound_data), [](auto& x) 
+      { return aggregate_type{ std::get<0>(x), std::get<1>(x) }; });
     return inbound_data;
   }
 }
 
-void RunAggregatedTypeExamples()
+void RunAggregatedTypeExample()
 {
   std::vector<aggregate_type> outbound_data = 
   {
@@ -36,12 +37,14 @@ void RunAggregatedTypeExamples()
     { 1234, 56789.445 }    
   };
 
+  // plain text format
   auto filename = "aggregated_type_test.txt";
   write_file(filename, plain_text, outbound_data);
   auto inbound_data = read_file(filename, plain_text);
   auto b = std::equal(outbound_data.begin(), outbound_data.end(), inbound_data.begin());
   std::cout << "plain text aggregated type io " << (b ? "succeeded": "failed") << std::endl;
 
+  // binary format
   filename = "aggregated_type_test.bin";
   write_file(filename, binary, outbound_data);
   inbound_data = read_file(filename, binary);
