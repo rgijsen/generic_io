@@ -43,3 +43,17 @@ void RunSingleTypeExample()
   auto b = std::equal(outbound_data.begin(), outbound_data.end(), inbound_data.begin());
   std::cout << "plain text single type io " << (b ? "succeeded": "failed") << std::endl;
 }
+
+// used in readme
+void MinimalExample()
+{
+  // tag::code_example[]  
+  // read two-column input of type string and, double
+  std::vector<std::pair<std::string, double>> data;
+  auto reader = storage::text_file_reader_t<std::string, double>("filename");
+  std::transform(reader.begin(), reader.end(), std::back_inserter(data), [](auto& a)
+  {
+    return std::make_pair( std::get<0>(a), std::get<1>(a) ); 
+  });
+  // end::code_example[]
+}
