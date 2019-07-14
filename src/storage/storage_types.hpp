@@ -22,6 +22,7 @@ namespace storage
       return std::make_tuple((std::numeric_limits<Ts>::max())...);
     }
 
+    // utility function to keep the storage library free from external depending logging scheme
     static void notify(std::string s)
     {
       std::cout << s << std::endl;

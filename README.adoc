@@ -1,4 +1,6 @@
 :stylesheet: asciidoctor.css
+//:icons:
+
 == generic_io library
 
 .Build status 
@@ -6,23 +8,23 @@ Ubuntu 18.10, GNU GCC 8.3: image:https://rgijsen.visualstudio.com/generic_io/_ap
 link=https://rgijsen.visualstudio.com/generic_io/_build/latest?definitionId=1&branchName=master]
 
 === Description
-Type-safe generic reader and writer components for I/O (file-) streams. Using the I/O iterators functional composition with the STL algorithms is possible.
+Type-safe custom reader and writer components for I/O (file-) streams. Customized to read and write column-based data, e.g. the xyz-format. The columns and there data types are defined during instantion using a (variadic) template parameter list.
+Using the I/O iterators the STL algorithms can be used for data processing.
 
 .Minimal sample code:
-// [source,c++, indent=0]
 // include::src/examples/single_type_example.cpp[tag=code_example]
 ----
 // read two-column input of type string and, double
 std::vector<std::pair<std::string, double>> data; // <1>
-auto reader = storage::text_file_reader_t<std::string, double>("filename"); // <2>
-std::transform(reader.begin(), reader.end(), std::back_inserter(data), [](auto& a) // <3>
+auto reader = storage::text_file_reader_t<std::string, double>("filename");
+std::transform(reader.begin(), reader.end(), std::back_inserter(data), [](auto& a)
 {
   return std::make_pair( std::get<0>(a), std::get<1>(a) ); 
 });
 ----
-<1> output data container (the read data is inserted into this container)
-<2> define the reader with the (variadic) types of the data to read
-<3> STL transform algorithm for iterating over the data
+// <1> output data container (the read data is inserted into this container)
+// <2> define the reader with the (variadic) types of the data to read
+// <3> STL transform algorithm for iterating over the data
 
 === Spec
 * Header file only
@@ -38,8 +40,16 @@ std::transform(reader.begin(), reader.end(), std::back_inserter(data), [](auto& 
 * XYZ format
 
 === Details
-The reader and writer are compositional setup
-[white-background]#test#
+The I/O library has a compositional setup.
+The main components are the reader and writer. Template parameters Parser and Trait set the data parser and stream traits respectively. Additional, the data columns and there type(s) are specified as template parameters.
+Type aliases are supplied for file stream. Only the data column types need to be specified. E.g. defining a binary file writer with columns for int and float looks like this: _auto writer = binary_file_writer_t<int, float>_
 
-image::resources/generic_io.svg["Components overview", 600]
+Since functions, and thus iterators, can only return one value the multiple data elements are aggregated into a tuple type. The parser folds (for reading) and unfolds (for writing) the individual data elements for further processing.
 
+The plaintext parser uses the << operator to write the individual data elements to stream. So custom types need to have the << operator available.
+For reading the plaintext parser has a string_converter. Custom types can be added to this converter.
+
+image::resources/generic_io.svg["Components overview", 700]
+
+=== 2do (maybe)
+* add column separator (probable to io_traits)
