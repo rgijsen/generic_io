@@ -49,7 +49,7 @@ Since functions, and thus iterators, can only return one value the multiple data
 The plaintext parser uses the << operator to write the individual data elements to stream. So custom types need to have the << operator available.
 For reading the plaintext parser has a string_converter. Custom types can be added to this converter.
 
-image::resources/generic_io.svg["Components overview", 700]
+image::resources/io_sequence_diagram.svg["Components overview", 600]
 
 === 2do (maybe)
 * add column separator (probable to io_traits)
