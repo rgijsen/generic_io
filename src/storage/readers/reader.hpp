@@ -22,4 +22,4 @@ namespace storage
       return iterator_t(Traits::template make_eof<Ts...>());
     }
   };
-} // namespace storage
+}
