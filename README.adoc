@@ -55,8 +55,8 @@ invoked by the STL algorithms.
 Simularly, the reader reads from stream when the iterator pointer operator, operator*(),is invoked by a STL algorithm.
 
 [icon="resources/note.png"]
-NOTE:
- To support the reading and writing of header/metadata lines in a file, the read_next() and write_next() functions can be called directly without the use of iterators. As header lines are not of the same type as the columns data, both functions require to be called with the header line type specified, e.g. reader.read_next<std::string>()
+[NOTE]
+To support the reading and writing of header/metadata lines in a file, the read_next() and write_next() functions can be called directly without the use of iterators. As header lines are not of the same type as the columns data, both functions require to be called with the header line type specified, e.g. reader.read_next<std::string>()
 
 .Sequence diagram
 image::resources/io_sequence_diagram.svg["Sequence diagram", 600]
