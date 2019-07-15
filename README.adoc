@@ -12,6 +12,7 @@ Type-safe custom reader and writer components for I/O (file-) streams. Customize
 Using the I/O iterators the STL algorithms can be used for data processing.
 
 .Minimal sample code:
+[source,c++, indent=0]
 // include::src/examples/single_type_example.cpp[tag=code_example]
 ----
 // read two-column input of type string and, double
@@ -49,7 +50,26 @@ Since functions, and thus iterators, can only return one value the multiple data
 The plaintext parser uses the << operator to write the individual data elements to stream. So custom types need to have the << operator available.
 For reading the plaintext parser has a string_converter. Custom types can be added to this converter.
 
-image::resources/io_sequence_diagram.svg["Components overview", 600]
+As can be seen in the sequence diagram below, the writer actually writes data to the stream when the iterator assigment operator, operator=(), is called. This operator gets 
+invoked by the STL algorithms. 
+Simularly, the reader reads from stream when the iterator pointer operator, operator*(),is invoked by a STL algorithm.
+
+[icon="resources/note.png"]
+NOTE:
+ To support the reading and writing of header/metadata lines in a file, the read_next() and write_next() functions can be called directly without the use of iterators. As header lines are not of the same type as the columns data, both functions require to be called with the header line type specified, e.g. reader.read_next<std::string>()
+
+.Sequence diagram
+image::resources/io_sequence_diagram.svg["Sequence diagram", 600]
+
+The class diagram below shows the classes and there relationships.
+The parser and trait classes are composition classes of the reader and writer classes. 
+
+The parser class hold the parse and unparse functions. The parse function folds the aggregated type (the tuple) to file. The unparse function reads the columns in a files and create a tuple where each tuple element matches a column. The column data type is specified when creating the writer or reader.
+
+The trait class has a notify function which can be used for logging. The reader and writer notify the filename that is being openend and if plaintext of binary format is used.
+
+.class diagram
+image::resources/io_library_class_diagram.svg["class diagram", 700]
 
 === 2do (maybe)
 * add column separator (probable to io_traits)
