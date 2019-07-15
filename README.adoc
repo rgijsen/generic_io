@@ -8,7 +8,7 @@ Ubuntu 18.10, GNU GCC 8.3: image:https://rgijsen.visualstudio.com/generic_io/_ap
 link=https://rgijsen.visualstudio.com/generic_io/_build/latest?definitionId=1&branchName=master]
 
 === Description
-Type-safe custom reader and writer components for I/O (file-) streams. Customized to read and write column-based data, e.g. the xyz-format. The columns and there data types are defined during instantion using a (variadic) template parameter list.
+Type-safe custom reader and writer components for I/O (file-) streams. Customized to read and write column-based data, e.g. the xyz-format. The columns and their data types are defined during instantation using a variadic template parameter list.
 Using the I/O iterators the STL algorithms can be used for data processing.
 
 .Minimal sample code:
@@ -30,10 +30,10 @@ std::transform(reader.begin(), reader.end(), std::back_inserter(data), [](auto& 
 === Spec
 * Header file only
 * C++17 
-* I/O parsers for plain text and binary format
+* I/O parsers for plaintext and binary format
 * Writers for file-based and standard output (std::cout) streams
 * Reader for file-based input stream
-* Suport for plaintext and binary format
+* Support for plaintext and binary format
 
 === Examples
 * Single type
@@ -42,10 +42,10 @@ std::transform(reader.begin(), reader.end(), std::back_inserter(data), [](auto& 
 
 === Details
 The I/O library has a compositional setup.
-The main components are the reader and writer. Template parameters Parser and Trait set the data parser and stream traits respectively. Additional, the data columns and there type(s) are specified as template parameters.
-Type aliases are supplied for file stream. Only the data column types need to be specified. E.g. defining a binary file writer with columns for int and float looks like this: _auto writer = binary_file_writer_t<int, float>_
+The main components are the reader and writer. Template parameters Parser and Traits set the data parser and stream traits respectively. Additional, the data columns and their type(s) are specified as template parameters.
+Type aliases are supplied for file stream. Only the data column types need to be specified. E.g. defining a binary file writer with int and float column looks like this: _auto writer = binary_file_writer_t<int, float>_
 
-Since functions, and thus iterators, can only return one value the multiple data elements are aggregated into a tuple type. The parser folds (for reading) and unfolds (for writing) the individual data elements for further processing.
+Since functions, and thus iterators, can only return one value the multiple data columns are aggregated into a tuple type. The parser folds (for reading) and unfolds (for writing) the individual data elements for further processing.
 
 The plaintext parser uses the << operator to write the individual data elements to stream. So custom types need to have the << operator available.
 For reading the plaintext parser has a string_converter. Custom types can be added to this converter.
@@ -56,20 +56,20 @@ Simularly, the reader reads from stream when the iterator pointer operator, oper
 
 [icon="resources/note.png"]
 [NOTE]
-To support the reading and writing of header/metadata lines in a file, the read_next() and write_next() functions can be called directly without the use of iterators. As header lines are not of the same type as the columns data, both functions require to be called with the header line type specified, e.g. reader.read_next<std::string>()
+To support the reading and writing of header/metadata lines in a file, the read_next() and write_next() functions can be called directly without the use of iterators. As header lines are not of the same type as the columns data, the reader read_next() function requires to be called with the header line type specified, e.g. reader.read_next<std::string>(). For the writer write.next() function the compiler can infer the types automatically.
 
 .Sequence diagram
 image::resources/io_sequence_diagram.svg["Sequence diagram", 600]
 
 The class diagram below shows the classes and there relationships.
-The parser and trait classes are composition classes of the reader and writer classes. 
+The parser and traits classes are composition classes of the reader and writer classes. 
 
-The parser class hold the parse and unparse functions. The parse function folds the aggregated type (the tuple) to file. The unparse function reads the columns in a files and create a tuple where each tuple element matches a column. The column data type is specified when creating the writer or reader.
+The parser class holds the parse and unparse functions. The parse function folds the aggregated type (the tuple) to file. The unparse function reads the columns from file and creates a tuple where each tuple element matches a column. The column data types are specified when instantiating the writer or reader object.
 
-The trait class has a notify function which can be used for logging. The reader and writer notify the filename that is being openend and if plaintext of binary format is used.
+The traits class has a notify function which can be used for logging. The reader and writer notify the filename that is being openend and if the plaintext of binary format is used.
 
 .class diagram
 image::resources/io_library_class_diagram.svg["class diagram", 700]
 
 === 2do (maybe)
-* add column separator (probable to io_traits)
+* add column separator (probably to io_traits)
