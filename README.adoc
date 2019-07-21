@@ -1,5 +1,6 @@
-:stylesheet: asciidoctor.css
-//:icons:
+ifdef::env-github[]
+:tip-caption: :bulb:
+endif::[]
 
 == generic_io library
 
@@ -55,7 +56,7 @@ invoked by the STL algorithms.
 Simularly, the reader reads from stream when the iterator pointer operator, operator*(),is invoked by a STL algorithm.
 
 [icon="resources/note.png"]
-[NOTE]
+[TIP]
 To support the reading and writing of header/metadata lines in a file, the read_next() and write_next() functions can be called directly without the use of iterators. As header lines are not of the same type as the columns data, the reader read_next() function requires to be called with the header line type specified, e.g. reader.read_next<std::string>(). For the writer write.next() function the compiler can infer the types automatically.
 
 .Sequence diagram
