@@ -1,14 +1,19 @@
+= generic_io library
+:toc:
+:toclevels: 3
 ifdef::env-github[]
 :tip-caption: :bulb:
 endif::[]
-
-== generic_io library
+:toc-placement!: manual
+endif::[]
 
 .Build status 
 Ubuntu 18.10, GNU GCC 8.3: image:https://rgijsen.visualstudio.com/generic_io/_apis/build/status/rgijsen.generic_io?branchName=master["Build Status",
 link=https://rgijsen.visualstudio.com/generic_io/_build/latest?definitionId=1&branchName=master]
 
-=== Description
+toc::[]
+
+== Description
 Type-safe custom reader and writer components for I/O (file-) streams. Customized to read and write column-based data, e.g. the xyz-format. The columns and their data types are defined during instantation using a variadic template parameter list.
 Using the I/O iterators the STL algorithms can be used for data processing.
 
@@ -28,7 +33,7 @@ std::transform(reader.begin(), reader.end(), std::back_inserter(data), [](auto& 
 // <2> define the reader with the (variadic) types of the data to read
 // <3> STL transform algorithm for iterating over the data
 
-=== Spec
+== Spec
 * Header file only
 * C++17 
 * I/O parsers for plaintext and binary format
@@ -36,12 +41,12 @@ std::transform(reader.begin(), reader.end(), std::back_inserter(data), [](auto& 
 * Reader for file-based input stream
 * Support for plaintext and binary format
 
-=== Examples
+== Examples
 * Single type
 * Aggregated types (plain text and binary)
 * XYZ format
 
-=== Details
+== Details
 The I/O library has a compositional setup.
 The main components are the reader and writer. Template parameters Parser and Traits set the data parser and stream traits respectively. Additional, the data columns and their type(s) are specified as template parameters.
 Type aliases are supplied for file stream. Only the data column types need to be specified. E.g. defining a binary file writer with int and float column looks like this: _auto writer = binary_file_writer_t<int, float>_
@@ -72,5 +77,5 @@ The traits class has a notify function which can be used for logging. The reader
 .class diagram
 image::resources/io_library_class_diagram.svg["class diagram", 700]
 
-=== 2do (maybe)
+== 2do (maybe)
 * add column separator (probably to io_traits)
