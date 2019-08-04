@@ -3,7 +3,6 @@
 :toclevels: 3
 ifdef::env-github[]
 :tip-caption: :bulb:
-endif::[]
 :toc-placement!: manual
 endif::[]
 
